@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    // es6
+    //   defineProperty
+    //   属性描述：writable,configurable,enumerable,value,get,set
+    
+    var obj={a:1};
+    //测试writable,是否可写
+    // Object.defineProperty(obj,'a',{
+    //     writable:false
+    // })
+
+    // 测试configurable,是否可被删除
+    // Object.defineProperty(obj,'a',{
+    //     configurable:false
+    //})
+
+    //测试enumerable,是否可被枚举
+    // Object.defineProperty(obj,'a',{
+    //     enumerable:false
+    // })
+
+    //测试value 赋值
+    // Object.defineProperty(obj,'a',{
+    //     value:false
+    // })
+
+    //测试get set
+    Object.defineProperty(obj,'a',{
+        get(){
+            return '123';
+        },
+        set(val){
+            console.log('val=',val)
+        }
+    })
+
+    //es6 proxy
+    var obj2={};
+    var proxy=new Proxy(obj2,{
+        get(target,key){
+            console.log('target='+target,'key='+key)
+        },
+        set(target,key,val){
+            console.log('target='+target,'key='+key,'val='+val)
+        }
+    })
+
+    //异步转同步的方式 Promise,async/await,generator
+    //promise的三种状态：pendding,fulfilled,rejected
+    function loadImg(src){
+        return new Promise((resolve,regect)=>{
+            let img=new Image();
+            img.src=src;
+            img.onload=function(){
+                resolve(img)
+            }
+            img.onerror=function(e){
+                regect(e)
+            }
+        })
+    }
+    var url='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1560077812197&di=57cb66f73053af06a7237e2223149e62&imgtype=0&src=http%3A%2F%2Fcdn0.hbimg.cn%2Fstore%2Fwm%2Fpiccommon%2F1198%2F11984%2FD525A3C998BBFFB18A8DBC941A.jpg';
+    loadImg(url).then(res=>{
+        document.body.appendChild(res)
+    },err=>{
+        console.log('err='+err)
+    })
+    </script>
+</body>
+</html>
+
+
